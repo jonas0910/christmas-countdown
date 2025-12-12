@@ -1,65 +1,135 @@
-import Image from "next/image";
+"use client";
+
+import BackgroundMusic from "@/components/background-music";
+import ChristmasMessage from "@/components/christmas-message";
+import CountdownTimer from "@/components/countdown-timer";
+import Fireworks from "@/components/fireworks-effect";
+import SnowEffect from "@/components/show-effect";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+  const [mounted, setMounted] = useState(false);
+  const [isChristmas, setIsChristmas] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  
+  const pageClass = transitioning
+    ? "opacity-0 transition-opacity duration-700"
+    : "opacity-100 transition-opacity duration-700";
+
+  if (isChristmas) {
+    return (
+      <div
+        className={`${pageClass} relative w-full h-screen flex items-center justify-center text-center overflow-hidden`}
+        style={{
+          backgroundImage: "url('/FELIZ-NAVIDAD.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "top",
+        }}
+      >
+        {/* Fireworks full screen */}
+        <Fireworks />
+
+        {/* Overlay sutil para mejor lectura */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+
+        {/* Content */}
+        <div className="relative z-20 px-6">
+          <h1
+            className="
+            text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6
+            bg-gradient-to-b from-yellow-300 to-yellow-500
+            text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(255,200,80,0.8)]
+            font-['Cinzel_Decorative']
+          "
+            style={{ letterSpacing: "0.06em" }}
+          >
+            🎄 ¡Feliz Navidad! 🎄
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p
+            className="
+            text-2xl md:text-3xl text-yellow-100/90
+            drop-shadow-[0_0_10px_rgba(255,255,200,0.8)]
+            font-light
+          "
+          >
+            Que la luz, la magia y la alegría llenen tu hogar ✨
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+    );
+  }
+
+  return (
+    <main
+      className={`${pageClass} relative min-h-screen overflow-hidden bg-no-repeat bg-cover bg-center`}
+      style={{ backgroundImage: "url('./NAVIDAD.png')" }}
+    >
+      {/* Animated background glow */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-festive-gold/30 via-transparent to-festive-red/10 animate-pulse"></div>
+      </div>
+
+      {/* Snow effect */}
+      <SnowEffect />
+
+      {/* Main content */}
+      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="w-full max-w-3xl">
+          {/* ---------------------- HEADER ----------------------- */}
+          <div className="mb-14 text-center select-none">
+            {/* Título mejorado */}
+            <h1
+              className="
+                text-6xl md:text-7xl font-extrabold mb-4
+                bg-gradient-to-b from-yellow-300 via-yellow-100 to-yellow-400 
+                text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(255,200,80,0.8)]
+                tracking-wide
+                animate-fade-in
+                font-['Cinzel_Decorative']
+              "
+              style={{ letterSpacing: "0.06em" }}
+            >
+              Navidad 2025
+            </h1>
+
+            {/* Subtítulo */}
+            <p
+              className="
+                text-festive-light/80 text-lg md:text-2xl font-light 
+                drop-shadow-md animate-fade-in delay-150
+              "
+            >
+              ✨ Un momento para celebrar, recordar y sonreír ✨
+            </p>
+          </div>
+
+          {/* Countdown */}
+          <CountdownTimer
+            isChristmas={isChristmas}
+            setIsChristmas={() => {
+              setTransitioning(true);
+
+              setTimeout(() => {
+                setIsChristmas(true);
+                setTransitioning(false);
+              }, 800); // duración del fade
+            }}
+          />
+
+          {/* Christmas message */}
+          <ChristmasMessage />
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Footer fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none" />
+      <BackgroundMusic />
+    </main>
   );
 }
