@@ -26,7 +26,7 @@ export default function CountdownTimer({
 
   // Cálculo del tiempo restante
   useEffect(() => {
-    const target = new Date("2025-12-12T06:53:00").getTime();
+    const target = new Date("2025-12-25T00:00:00").getTime();
 
     const update = () => {
       const diff = target - Date.now();
