@@ -27,7 +27,7 @@ export default function CountdownTimer({
 
   useEffect(() => {
     const calculate = () => {
-      const christmas = new Date("2025-12-11T18:01:00").getTime();
+      const christmas = new Date("2025-12-11T19:55:00").getTime();
       const now = Date.now();
       const diff = christmas - now;
       if (diff <= 0) {
