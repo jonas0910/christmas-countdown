@@ -1,4 +1,4 @@
-# 🎄 Proyecto Next.js 
+# 🎄 Countdown Christmas
 
 Este es un proyecto [Next.js](https://nextjs.org) creado con [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app), ¡listo para brillar como las luces del árbol de Navidad! ✨
 
