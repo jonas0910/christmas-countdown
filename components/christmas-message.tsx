@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 export default function ChristmasMessage() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [index, setIndex] = useState(0)
+  const [isVisible, setIsVisible] = useState(false);
+  const [index, setIndex] = useState(0);
 
-  // Mensajes navideños ampliados
   const messages = [
     "✨ Que la magia navideña ilumine tu vida",
     "🎄 Rodeate de amor, paz y alegría estas fiestas",
@@ -23,40 +22,40 @@ export default function ChristmasMessage() {
     "✨ Que la paz y la magia te acompañen en el camino",
     "🌲 Hoy es un buen día para agradecer todo lo bueno que te rodea",
     "🌟 Que la luz de esta Navidad guíe tus próximos pasos",
-  ]
+  ];
 
-  // Mostrar el primer mensaje con transición suave
+  // Fade-in inicial
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 800)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setIsVisible(true), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Cambiar mensaje cada 60 segundos (1 min)
+  // Cambiar mensaje cada minuto
   useEffect(() => {
-    const changeTimer = setInterval(() => {
-      setIsVisible(false) // fade out
+    const interval = setInterval(() => {
+      setIsVisible(false);
 
       setTimeout(() => {
-        setIndex((i) => (i + 1) % messages.length)
-        setIsVisible(true) // fade in
-      }, 600)
-    }, 60000) // 60,000 ms → 1 minuto
+        setIndex((prev) => (prev + 1) % messages.length);
+        setIsVisible(true);
+      }, 600);
+    }, 60000);
 
-    return () => clearInterval(changeTimer)
-  }, [messages.length])
+    return () => clearInterval(interval);
+  }, [messages.length]);
 
   return (
     <div
-      className={`text-center transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-      }`}
+      className={`
+        text-center transition-all duration-700
+        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}
+      `}
     >
       <div className="relative inline-block">
+        {/* Glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-yellow-300/30 blur-2xl rounded-2xl -z-10" />
 
-        {/* Glow elegante detrás */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-yellow-300/30 blur-2xl rounded-2xl -z-10"></div>
-
-        {/* Caja estilo cristal navideño */}
+        {/* Caja de mensaje */}
         <div
           className="
             bg-gradient-to-br from-red-950/40 to-yellow-800/10
@@ -70,5 +69,5 @@ export default function ChristmasMessage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

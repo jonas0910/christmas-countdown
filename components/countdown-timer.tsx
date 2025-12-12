@@ -15,7 +15,6 @@ interface CountdownTimerProps {
 }
 
 export default function CountdownTimer({
-  isChristmas,
   setIsChristmas,
 }: CountdownTimerProps) {
   const [time, setTime] = useState<TimeUnits>({
@@ -25,45 +24,42 @@ export default function CountdownTimer({
     seconds: 0,
   });
 
+  // Cálculo del tiempo restante
   useEffect(() => {
-    const calculate = () => {
-      const christmas = new Date("2025-12-25T00:00:00").getTime();
-      const now = Date.now();
-      const diff = christmas - now;
-      if (diff <= 0) {
-        setIsChristmas(true);
-        return;
-      }
+    const target = new Date("2025-12-12T06:53:00").getTime();
+
+    const update = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) return setIsChristmas(true);
 
       setTime({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / 1000 / 60) % 60),
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff / 3600000) % 24),
+        minutes: Math.floor((diff / 60000) % 60),
         seconds: Math.floor((diff / 1000) % 60),
       });
     };
 
-    calculate();
-    const id = setInterval(calculate, 1000);
+    update();
+    const id = setInterval(update, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [setIsChristmas]);
 
+  // Componente interno más compacto
   const TimeCard = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center">
       <div className="relative">
-        {/* Glow fijo */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-yellow-300/30 blur-xl rounded-2xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-yellow-300/30 blur-xl rounded-2xl" />
 
-        {/* Caja fija */}
         <div
           className="
-          relative rounded-2xl p-6 md:p-8 min-w-24 md:min-w-28
-          bg-gradient-to-br from-red-950/40 to-yellow-800/10
-          border border-yellow-400/40 backdrop-blur-md shadow-xl
-        "
+            relative rounded-2xl p-6 md:p-8 min-w-24 md:min-w-28
+            bg-gradient-to-br from-red-950/40 to-yellow-800/10
+            border border-yellow-400/40 backdrop-blur-md shadow-xl
+          "
         >
           <span className="text-4xl md:text-5xl font-bold text-yellow-300 drop-shadow-lg select-none">
-            {String(value).padStart(2, "0")}
+            {value.toString().padStart(2, "0")}
           </span>
         </div>
       </div>
@@ -76,8 +72,7 @@ export default function CountdownTimer({
 
   return (
     <div className="mb-12 relative">
-      {/* Fondo estático tipo aurora navideña */}
-      <div className="absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_top,#ff0000,#7a0000,#000000)] blur-3xl"></div>
+      <div className="absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_top,#ff0000,#7a0000,#000000)] blur-3xl" />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <TimeCard value={time.days} label="Días" />

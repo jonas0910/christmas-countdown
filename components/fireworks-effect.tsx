@@ -7,23 +7,22 @@ export default function Fireworks() {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
 
-    // Mantiene el canvas del tamaño de la pantalla
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
+
     resize();
     window.addEventListener("resize", resize);
 
     const particles: any[] = [];
+    const colors = ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93"];
 
-    function createFirework() {
+    const createFirework = () => {
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height * 0.4;
 
       const count = 30;
-      const colors = ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93"];
-
       for (let i = 0; i < count; i++) {
         particles.push({
           x,
@@ -35,10 +34,9 @@ export default function Fireworks() {
           alpha: 1,
         });
       }
-    }
+    };
 
-    function animate() {
-      // BORRADO suave sin pintar negro
+    const animate = () => {
       ctx.globalCompositeOperation = "destination-out";
       ctx.fillStyle = "rgba(0,0,0,0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -54,13 +52,14 @@ export default function Fireworks() {
 
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
       });
 
       requestAnimationFrame(animate);
-    }
+    };
 
     const interval = setInterval(createFirework, 900);
     animate();
@@ -74,14 +73,8 @@ export default function Fireworks() {
   return (
     <canvas
       ref={canvasRef}
-      className="
-        absolute inset-0 w-full h-full 
-        pointer-events-none 
-        z-10 
-      "
-      style={{
-        background: "transparent",
-      }}
+      className="absolute inset-0 w-full h-full pointer-events-none z-10"
+      style={{ background: "transparent" }}
     />
   );
 }
